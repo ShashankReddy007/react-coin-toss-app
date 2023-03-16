@@ -3,13 +3,9 @@ import {Component} from 'react'
 
 import './index.css'
 
-const HEADS_IMG_URL = 'https://assets.ccbp.in/frontend/react-js/heads-img.png'
-
-const TAILS_IMG_URL = 'https://assets.ccbp.in/frontend/react-js/tails-img.png'
-
 class CoinToss extends Component {
   state = {
-    tossResultImage: HEADS_IMG_URL,
+    tossResultImage: true,
     headsCount: 0,
     tailsCount: 0,
   }
@@ -19,12 +15,28 @@ class CoinToss extends Component {
 
     if (tossResult === 0) {
       this.setState(prevState => ({headsCount: prevState.headsCount + 1}))
-      this.setState({tossResultImage: HEADS_IMG_URL})
+      this.setState({tossResultImage: true})
     } else {
       this.setState(prevState => ({tailsCount: prevState.tailsCount + 1}))
-      this.setState({tossResultImage: TAILS_IMG_URL})
+      this.setState({tossResultImage: false})
     }
   }
+
+  getHeadsImage = () => (
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/heads-img.png"
+      alt="toss result"
+      className="toss-result-img"
+    />
+  )
+
+  getTailsImage = () => (
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/tails-img.png"
+      alt="toss result"
+      className="toss-result-img"
+    />
+  )
 
   render() {
     const {tossResultImage, headsCount, tailsCount} = this.state
@@ -35,12 +47,15 @@ class CoinToss extends Component {
         <div className="coin-toss-container">
           <h1 className="heading">Coin Toss Game</h1>
           <p className="description">Heads (or) Tails</p>
-          <img
-            src={tossResultImage}
-            alt="toss result"
-            className="toss-result-img"
-          />
-          <button onClick={this.makeToss}>Toss Coin</button>
+          {tossResultImage ? this.getHeadsImage() : this.getTailsImage()}
+          <button type="button" className="button" onClick={this.makeToss}>
+            Toss Coin
+          </button>
+          <div className="counts-container">
+            <p className="count">total: {totalCount}</p>
+            <p className="count">Heads: {headsCount}</p>
+            <p className="count">Tails: {tailsCount}</p>
+          </div>
         </div>
       </div>
     )
